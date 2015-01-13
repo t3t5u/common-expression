@@ -1,0 +1,29 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+dependencies {
+	compile group: 'com.github.t3t5u', name: 'common-util', version: '1.0.0'
+	testCompile group: 'junit', name: 'junit', version: '4.11'
+	testCompile group: 'org.mockito', name: 'mockito-core', version: '1.9.5'
+	testCompile group: 'org.hamcrest', name: 'hamcrest-library', version: '1.3'
+	testCompile group: 'ch.qos.logback', name: 'logback-core', version: '1.1.2'
+	testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.2'
+}
+repositories {
+	mavenCentral()
+	mavenLocal()
+}
+tasks.withType(JavaCompile) {
+	sourceCompatibility = JavaVersion.VERSION_1_7
+	targetCompatibility = JavaVersion.VERSION_1_7
+	options.encoding = 'UTF-8'
+	options.compilerArgs.add('-Xlint:all')
+}
+task installArchives(type: Upload) {
+	repositories.mavenInstaller {
+		configuration = configurations.archives
+		pom.groupId = 'com.github.t3t5u'
+		pom.artifactId = 'common-expression'
+		pom.version = '1.0.0'
+	}
+}
+task wrapper(type: Wrapper)
